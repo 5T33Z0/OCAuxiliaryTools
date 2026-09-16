@@ -34,7 +34,7 @@ Besides being a plist Configurator it can do much more:
 * **Database with complete base configs** for Intel and AMD CPUs based on Dortania's OpenCore Install Guide.
 * **Ability to generate EFI folders** from a config with a single click.
 * **Ability to create EFI folder Backups**.
-* **Update the Database**, ACPI-Quirks.txt, Booter-Quirks.txt, Kernel-Quirks.txt and UEFI-Quirks.txt
+* **Update the Database**, ACPI-Quirks.txt, Booter-Quirks.txt, Kernel-Quirks.txt, UEFI-Quirks.txt and KextUrl.txt
 * **The toolTip.txt translated into English**.
 
 
