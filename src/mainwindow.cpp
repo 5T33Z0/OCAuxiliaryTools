@@ -3322,6 +3322,26 @@ void MainWindow::MoveItem(QTableWidget* t, bool up) {
   checkFiles(t);
 }
 
+void MainWindow::performSafeRowMove(QTableWidget* t, int sourceRow, int targetRow) {
+  if (!t || sourceRow == targetRow || sourceRow < 0 || targetRow < 0) return;
+  if (sourceRow >= t->rowCount() || targetRow >= t->rowCount()) return;
+
+  int curCol = t->currentColumn();
+  if (curCol < 0) curCol = 0;
+
+  t->setCurrentCell(sourceRow, curCol);
+
+  if (sourceRow < targetRow) {
+    for (int r = sourceRow; r < targetRow; ++r) {
+      MoveItem(t, false);
+    }
+  } else {
+    for (int r = sourceRow; r > targetRow; --r) {
+      MoveItem(t, true);
+    }
+  }
+}
+
 void MainWindow::on_btnKernelAdd_Up_clicked() {
   MoveItem(ui->table_kernel_add, true);
 }
@@ -5516,6 +5536,15 @@ void MainWindow::init_TableStyle() {
     t->setStyleSheet(strStyle);
     t->setCornerButtonEnabled(true);
     t->setFrameShape(QFrame::NoFrame);
+
+    t->setDragEnabled(true);
+    t->setAcceptDrops(true);
+    t->setDragDropMode(QAbstractItemView::DragDrop);
+    t->setDefaultDropAction(Qt::CopyAction);
+    t->setDropIndicatorShown(true);
+
+    t->installEventFilter(this);
+    t->viewport()->installEventFilter(this);
   }
 }
 
@@ -8656,6 +8685,50 @@ void MainWindow::paintEvent(QPaintEvent* event) {
 }
 
 bool MainWindow::eventFilter(QObject* obj, QEvent* event) {
+  QTableWidget* table = qobject_cast<QTableWidget*>(obj);
+  if (!table) {
+    QWidget* vp = qobject_cast<QWidget*>(obj);
+    if (vp) table = qobject_cast<QTableWidget*>(vp->parent());
+  }
+
+  if (table && listOfTableWidget.contains(table)) {
+    if (event->type() == QEvent::DragEnter) {
+      QDragEnterEvent* dragEvent = static_cast<QDragEnterEvent*>(event);
+      if (dragEvent->source() == table || dragEvent->source() == table->viewport()) {
+        dragEvent->acceptProposedAction();
+        return true;
+      }
+    } else if (event->type() == QEvent::DragMove) {
+      QDragMoveEvent* dragMoveEvent = static_cast<QDragMoveEvent*>(event);
+      if (dragMoveEvent->source() == table || dragMoveEvent->source() == table->viewport()) {
+        dragMoveEvent->acceptProposedAction();
+      }
+    } else if (event->type() == QEvent::Drop) {
+      QDropEvent* dropEvent = static_cast<QDropEvent*>(event);
+      if (dropEvent->source() == table || dropEvent->source() == table->viewport()) {
+        int sourceRow = table->currentRow();
+        if (sourceRow < 0 && table->selectionModel() && !table->selectionModel()->selectedRows().isEmpty()) {
+          sourceRow = table->selectionModel()->selectedRows().first().row();
+        }
+
+        QPoint pos = dropEvent->pos();
+        if (obj == table) {
+          pos = table->viewport()->mapFromParent(pos);
+        }
+
+        QModelIndex dropIndex = table->indexAt(pos);
+        int targetRow = dropIndex.isValid() ? dropIndex.row() : (table->rowCount() > 0 ? table->rowCount() - 1 : 0);
+
+        if (sourceRow >= 0 && targetRow >= 0 && sourceRow != targetRow &&
+            sourceRow < table->rowCount() && targetRow < table->rowCount()) {
+          performSafeRowMove(table, sourceRow, targetRow);
+        }
+        dropEvent->acceptProposedAction();
+        return true;
+      }
+    }
+  }
+
   if (obj->metaObject()->className() == QStringLiteral("QLabel") ||
       obj->metaObject()->className() == QStringLiteral("QCheckBox") ||
       obj->metaObject()->className() == QStringLiteral("QTableWidget")) {

@@ -340,6 +340,7 @@ class MainWindow : public QMainWindow {
   void currentCellChanged(QTableWidget* t, int previousRow, int previousColumn,
                           int currentRow, int currentColumn);
   void MoveItem(QTableWidget* t, bool up);
+  void performSafeRowMove(QTableWidget* t, int sourceRow, int targetRow);
   void CheckChange(QTableWidget* tw, int arg1, QToolButton* btnDel);
   void CellEnter(int row, QTableWidget* tw);
 
