@@ -3322,58 +3322,24 @@ void MainWindow::MoveItem(QTableWidget* t, bool up) {
   checkFiles(t);
 }
 
-void MainWindow::swapRowsData(QTableWidget* t, int r1, int r2) {
-  if (!t || r1 == r2 || r1 < 0 || r2 < 0 || r1 >= t->rowCount() || r2 >= t->rowCount())
-    return;
-
-  int cols = t->columnCount();
-  for (int col = 0; col < cols; ++col) {
-    QTableWidgetItem* item1 = t->takeItem(r1, col);
-    QTableWidgetItem* item2 = t->takeItem(r2, col);
-
-    if (!item1) item1 = new QTableWidgetItem("");
-    if (!item2) item2 = new QTableWidgetItem("");
-
-    t->setItem(r1, col, item2);
-    t->setItem(r2, col, item1);
-  }
-}
-
 void MainWindow::performSafeRowMove(QTableWidget* t, int sourceRow, int targetRow) {
   if (!t || sourceRow == targetRow || sourceRow < 0 || targetRow < 0) return;
   if (sourceRow >= t->rowCount() || targetRow >= t->rowCount()) return;
 
-  QAbstractItemView::SelectionMode oldMode = t->selectionMode();
-  QAbstractItemView::SelectionBehavior oldBehavior = t->selectionBehavior();
-
-  t->setSelectionMode(QAbstractItemView::SingleSelection);
-  t->setSelectionBehavior(QAbstractItemView::SelectRows);
-
   int curCol = t->currentColumn();
   if (curCol < 0) curCol = 0;
 
-  t->blockSignals(true);
+  t->setCurrentCell(sourceRow, curCol);
 
   if (sourceRow < targetRow) {
     for (int r = sourceRow; r < targetRow; ++r) {
-      swapRowsData(t, r, r + 1);
+      MoveItem(t, false);
     }
   } else {
     for (int r = sourceRow; r > targetRow; --r) {
-      swapRowsData(t, r, r - 1);
+      MoveItem(t, true);
     }
   }
-
-  t->setCurrentCell(targetRow, curCol);
-
-  t->blockSignals(false);
-
-  t->setSelectionMode(oldMode);
-  t->setSelectionBehavior(oldBehavior);
-
-  this->setWindowModified(true);
-  updateIconStatus();
-  checkFiles(t);
 }
 
 void MainWindow::on_btnKernelAdd_Up_clicked() {
@@ -5573,8 +5539,8 @@ void MainWindow::init_TableStyle() {
 
     t->setDragEnabled(true);
     t->setAcceptDrops(true);
-    t->setDragDropMode(QAbstractItemView::InternalMove);
-    t->setDefaultDropAction(Qt::MoveAction);
+    t->setDragDropMode(QAbstractItemView::DragDrop);
+    t->setDefaultDropAction(Qt::CopyAction);
     t->setDropIndicatorShown(true);
 
     t->installEventFilter(this);
