@@ -1,6 +1,6 @@
 # OpenCore Auxiliary Tools (OCAT) — Restored Edition
 
-![GUI](https://github.com/user-attachments/assets/5f28f770-9248-4275-b18a-49708c5bd8ac)
+![GUI](https://github.com/YBronst/user-attachments/blob/main/OCAuxiliaryTools.png)
 
 This is a restored and cleaned-up edition of the **OpenCore Auxiliary Tools (OCAT)**, originally developed by [ic005k](https://github.com/ic005k/OCAuxiliaryTools). 
 
