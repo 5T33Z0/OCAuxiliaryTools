@@ -29,6 +29,7 @@ IntelBluetoothFirmware.kext | https://github.com/OpenIntelWireless/IntelBluetoot
 IntelBluetoothInjector.kext | https://github.com/OpenIntelWireless/IntelBluetoothFirmware
 IntelBTPatcher.kext | https://github.com/OpenIntelWireless/IntelBluetoothFirmware
 IntelMausi.kext | https://github.com/acidanthera/IntelMausi
+IntelMausiEthernet.kext | https://github.com/Mieze/IntelMausiEthernet
 itlwm.kext | https://github.com/OpenIntelWireless/itlwm
 Lilu.kext | https://github.com/acidanthera/Lilu
 LucyRTL8125Ethernet.kext | https://github.com/Mieze/LucyRTL8125Ethernet
