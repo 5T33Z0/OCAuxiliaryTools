@@ -1674,10 +1674,12 @@ bool MainWindow::getBool(QTableWidget* table, int row, int column) {
 
 void MainWindow::SavePlist(QString FileName) {
   if (QFile(SaveFileName).exists()) {
-    QString oldfile = QFileInfo(SaveFileName).path() + "/oldConfig.plist";
-    QFile tempfile(oldfile);
-    tempfile.remove();
-    QFile::copy(SaveFileName, oldfile);
+    if (FileName == SaveFileName) {
+      QString oldfile = QFileInfo(SaveFileName).path() + "/oldConfig.plist";
+      QFile tempfile(oldfile);
+      tempfile.remove();
+      QFile::copy(SaveFileName, oldfile);
+    }
     FileSystemWatcher::removeWatchPath(SaveFileName);
   }
   lineEditSetText();
