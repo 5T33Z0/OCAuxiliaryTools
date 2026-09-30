@@ -35,6 +35,7 @@ Lilu.kext | https://github.com/acidanthera/Lilu
 LucyRTL8125Ethernet.kext | https://github.com/Mieze/LucyRTL8125Ethernet
 MacHyperVSupport.kext | https://github.com/acidanthera/MacHyperVSupport
 NightShiftEnabler.kext | https://github.com/cdf/NightShiftEnabler
+NootedRed.kext | https://github.com/ChefKissInc/NootedRed
 NoTouchID.kext | https://github.com/al3xtjames/NoTouchID
 NVMeFix.kext | https://github.com/acidanthera/NVMeFix
 Polaris22Fixup.kext | https://github.com/Baio1977/Polaris22Fixup
