@@ -18,6 +18,7 @@ Unlike other Configurator apps, OCAT doesn't mess up the config if the Devs of O
 * **Code Cleanup:** Completely "de-Chinesed" — all Chinese interfaces, menus, and hidden localization clutter have been removed.
 * **Dependency Fixes:** Removed all broken links and references to external components that were deleted by the original author, ensuring stable builds.
 * **Pure Performance:** Kept the original smart adaptation system without extra regional bloat.
+* **Drag & Drop Row Reordering**: Reorder entries in any table-based list (Kexts, ACPI patches, Drivers, Tools, etc.) by dragging rows with the mouse – no need to rely solely on the `<` / `>` move buttons.
 
 ## Features
 Besides being a plist Configurator it can do much more:
