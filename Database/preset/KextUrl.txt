@@ -44,6 +44,7 @@ RealtekCardReaderFriend.kext | https://github.com/Baio1977/RealtekCardReaderFrie
 RealtekRTL8111.kext | https://github.com/Mieze/RTL8111_driver_for_OS_X
 RestrictEvents.kext | https://github.com/acidanthera/RestrictEvents
 RTCMemoryFixup.kext | https://github.com/acidanthera/RTCMemoryFixup
+SimpleHDA.kext | https://github.com/laobamac/SimpleHDA
 SMCAMDProcessor.kext | https://github.com/trulyspinach/SMCAMDProcessor
 SMCRadeonSensors.kext | https://github.com/ChefKissInc/SMCRadeonSensors
 USBInjectAll.kext | https://github.com/daliansky/OS-X-USB-Inject-All
